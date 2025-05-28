@@ -5,6 +5,7 @@
 //  Created by Hiroshi Chiyokawa on 2025/05/28.
 //
 
+
 import SwiftUI
 
 struct ContentView: View {
@@ -12,7 +13,7 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            Color(red: 13/255, green: 4/255, blue: 4/255).ignoresSafeArea()
+            PomodoroColorProvider.background.ignoresSafeArea()
             VStack(spacing: 32) {
                 Spacer(minLength: 40)
                 Text(viewModel.label())
@@ -32,11 +33,11 @@ struct ContentView: View {
                 VStack(spacing: 0) {
                     Text(String(format: "%02d", viewModel.timeRemaining / 60))
                         .font(.system(size: 96, weight: .thin, design: .monospaced))
-                        .foregroundColor(.white)
+                        .foregroundColor(PomodoroColorProvider.timerText)
                         .frame(maxWidth: .infinity)
                     Text(String(format: "%02d", viewModel.timeRemaining % 60))
                         .font(.system(size: 48, weight: .light, design: .monospaced))
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(PomodoroColorProvider.timerSubText)
                         .frame(maxWidth: .infinity)
                 }
                 .padding(.vertical, 16)
@@ -52,7 +53,7 @@ struct ContentView: View {
                         Text(viewModel.isRunning ? viewModel.t("pause") : viewModel.t("start"))
                             .font(.title2)
                             .frame(maxWidth: .infinity, minHeight: 56)
-                            .background(viewModel.isRunning ? Color.orange : viewModel.stateColor())
+                            .background(viewModel.isRunning ? PomodoroColorProvider.pause : viewModel.stateColor())
                             .foregroundColor(.white)
                             .cornerRadius(28)
                     }
@@ -61,7 +62,7 @@ struct ContentView: View {
                         Text(viewModel.t("reset"))
                             .font(.title2)
                             .frame(maxWidth: .infinity, minHeight: 56)
-                            .background(Color.gray.opacity(0.5))
+                            .background(PomodoroColorProvider.reset)
                             .foregroundColor(.white)
                             .cornerRadius(28)
                     }
@@ -77,6 +78,8 @@ struct ContentView: View {
     }
 }
 
-#Preview {
-    ContentView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }

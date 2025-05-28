@@ -1,5 +1,4 @@
 import Foundation
-// ViewModel for Pomodoro Timer
 import SwiftUI
 
 public class PomodoroTimerViewModel: ObservableObject {
@@ -7,6 +6,17 @@ public class PomodoroTimerViewModel: ObservableObject {
         case focus
         case shortBreak
         case longBreak
+        
+        var duration: Int {
+            switch self {
+            case .focus:
+                return 25 * 60
+            case .shortBreak:
+                return 5 * 60
+            case .longBreak:
+                return 15 * 60
+            }
+        }
     }
 
     @Published var language: String = Locale.current.language.languageCode?.identifier ?? "ja"  // デフォルト:システム言語
@@ -20,6 +30,7 @@ public class PomodoroTimerViewModel: ObservableObject {
 
     init() {
         loadTranslations()
+        timeRemaining = timerState.duration
     }
 
     private func loadTranslations() {
@@ -37,7 +48,7 @@ public class PomodoroTimerViewModel: ObservableObject {
         return translations[lang]?[key] ?? key
     }
 
-    private var timer: Timer? = nil
+    private var timer: Timer?
 
     // ラベル取得
     func label(for state: TimerState? = nil) -> String {
@@ -104,11 +115,11 @@ public class PomodoroTimerViewModel: ObservableObject {
     func stateColor() -> Color {
         switch timerState {
         case .focus:
-            return Color(red: 1.0, green: 76 / 255, blue: 76 / 255)  // 赤系
+            return PomodoroColorProvider.focus
         case .shortBreak:
-            return Color(red: 77 / 255, green: 218 / 255, blue: 110 / 255)  // 緑系
+            return PomodoroColorProvider.shortBreak
         case .longBreak:
-            return Color(red: 76 / 255, green: 172 / 255, blue: 1.0)  // 青系
+            return PomodoroColorProvider.longBreak
         }
     }
 }
