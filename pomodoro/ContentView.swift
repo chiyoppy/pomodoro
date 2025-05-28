@@ -8,14 +8,72 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var viewModel = PomodoroTimerViewModel()
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ZStack {
+            Color(red: 13/255, green: 4/255, blue: 4/255).ignoresSafeArea()
+            VStack(spacing: 32) {
+                Spacer(minLength: 40)
+                Text(viewModel.label())
+                    .font(.title2)
+                    .fontWeight(.medium)
+                    .foregroundColor(viewModel.stateColor())
+                    .padding(.bottom, 8)
+                // 言語切替UI例（将来多言語拡張用）
+                Picker(viewModel.t("language"), selection: $viewModel.language) {
+                    Text("日本語").tag("ja")
+                    Text("English").tag("en")
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal, 32)
+                .padding(.bottom, 8)
+
+                VStack(spacing: 0) {
+                    Text(String(format: "%02d", viewModel.timeRemaining / 60))
+                        .font(.system(size: 96, weight: .thin, design: .monospaced))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                    Text(String(format: "%02d", viewModel.timeRemaining % 60))
+                        .font(.system(size: 48, weight: .light, design: .monospaced))
+                        .foregroundColor(.white.opacity(0.7))
+                        .frame(maxWidth: .infinity)
+                }
+                .padding(.vertical, 16)
+
+                VStack(spacing: 20) {
+                    Button(action: {
+                        if viewModel.isRunning {
+                            viewModel.stopTimer()
+                        } else {
+                            viewModel.startTimer()
+                        }
+                    }) {
+                        Text(viewModel.isRunning ? viewModel.t("pause") : viewModel.t("start"))
+                            .font(.title2)
+                            .frame(maxWidth: .infinity, minHeight: 56)
+                            .background(viewModel.isRunning ? Color.orange : viewModel.stateColor())
+                            .foregroundColor(.white)
+                            .cornerRadius(28)
+                    }
+
+                    Button(action: viewModel.resetTimer) {
+                        Text(viewModel.t("reset"))
+                            .font(.title2)
+                            .frame(maxWidth: .infinity, minHeight: 56)
+                            .background(Color.gray.opacity(0.5))
+                            .foregroundColor(.white)
+                            .cornerRadius(28)
+                    }
+                }
+                .padding(.horizontal, 32)
+
+                Spacer()
+            }
         }
-        .padding()
+        .onDisappear {
+            viewModel.stopTimer()
+        }
     }
 }
 

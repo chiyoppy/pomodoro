@@ -1,0 +1,20 @@
+{
+  "ja": {
+    "focus": "集中",
+    "shortBreak": "短い休憩",
+    "longBreak": "長い休憩",
+    "start": "開始",
+    "pause": "一時停止",
+    "reset": "リセット",
+    "language": "言語"
+  },
+  "en": {
+    "focus": "Focus",
+    "shortBreak": "Short Break",
+    "longBreak": "Long Break",
+    "start": "Start",
+    "pause": "Pause",
+    "reset": "Reset",
+    "language": "Language"
+  }
+}
