@@ -23,7 +23,7 @@ public class PomodoroTimerViewModel: ObservableObject {
 
     @Published var isRunning = false
     @Published var timerState: TimerState = .focus
-    @Published var timeRemaining = 25 * 60
+    @Published var timeRemaining = TimerState.focus.duration
     @Published var pomodoroCount = 0
 
     private var translations: [String: [String: String]] = [:]
@@ -87,7 +87,7 @@ public class PomodoroTimerViewModel: ObservableObject {
     func resetTimer() {
         stopTimer()
         timerState = .focus
-        timeRemaining = 25 * 60
+        timeRemaining = timerState.duration
         pomodoroCount = 0
     }
 
@@ -97,17 +97,17 @@ public class PomodoroTimerViewModel: ObservableObject {
             pomodoroCount += 1
             if pomodoroCount % 4 == 0 {
                 timerState = .longBreak
-                timeRemaining = 15 * 60
+                timeRemaining = timerState.duration
             } else {
                 timerState = .shortBreak
-                timeRemaining = 5 * 60
+                timeRemaining = timerState.duration
             }
         case .shortBreak:
             timerState = .focus
-            timeRemaining = 25 * 60
+            timeRemaining = timerState.duration
         case .longBreak:
             timerState = .focus
-            timeRemaining = 25 * 60
+            timeRemaining = timerState.duration
             pomodoroCount = 0
         }
     }
