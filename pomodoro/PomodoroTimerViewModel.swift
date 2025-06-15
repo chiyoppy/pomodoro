@@ -19,7 +19,7 @@ public class PomodoroTimerViewModel: ObservableObject {
         }
     }
 
-    @Published var language: String = Locale.current.language.languageCode?.identifier ?? "ja"  // デフォルト:システム言語
+    @Published var language: String = Locale.current.language.languageCode?.identifier ?? "ja"  // デフォルトはシステム言語（取得できない場合は "ja"）
 
     @Published var isRunning = false
     @Published var timerState: TimerState = .focus
