@@ -241,6 +241,19 @@ struct PomodoroTimerViewModelTests {
 
         #expect(viewModel.t(nonExistentKey) == nonExistentKey)
     }
+
+    @Test("未定義言語は英語にフォールバック")
+    func undefinedLanguageFallbackToEnglish() {
+        let viewModel = PomodoroTimerViewModel()
+        viewModel.language = "fr"  // 定義されていない言語
+
+        #expect(viewModel.t("focus") == "Focus")
+        #expect(viewModel.t("shortBreak") == "Short Break")
+        #expect(viewModel.t("longBreak") == "Long Break")
+        #expect(viewModel.t("start") == "Start")
+        #expect(viewModel.t("pause") == "Pause")
+        #expect(viewModel.t("reset") == "Reset")
+    }
 }
 
 // MARK: - Color Provider Tests
