@@ -119,7 +119,7 @@ struct PomodoroTimerViewModelTests {
     // MARK: - Pomodoro Cycle Tests
 
     @Test("完全なポモドーロサイクル")
-    func completePomodorooCycle() {
+    func completePomodoroCycle() {
         let viewModel = PomodoroTimerViewModel()
 
         // 1回目: フォーカス → ショートブレーク
